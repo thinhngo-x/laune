@@ -11,14 +11,15 @@ We provide security updates for the following versions:
 
 ## Reporting a Vulnerability
 
-We take security vulnerabilities seriously. If you discover a security vulnerability, please follow these steps:
+We take security vulnerabilities seriously. If you discover a security vulnerability, please follow
+these steps:
 
 ### 🔒 Private Disclosure
 
 **DO NOT** open a public issue for security vulnerabilities.
 
-Instead, please report security issues by emailing us at:
-**security@laune.dev** (or create a private GitHub security advisory)
+Instead, please report security issues by emailing us at: **security@laune.dev** (or create a
+private GitHub security advisory)
 
 ### 📋 Information to Include
 
@@ -41,7 +42,8 @@ When reporting a security vulnerability, please include:
 
 ### 🏆 Recognition
 
-We appreciate security researchers who help keep Laune secure. If you report a valid security vulnerability:
+We appreciate security researchers who help keep Laune secure. If you report a valid security
+vulnerability:
 
 - We'll acknowledge your contribution (if you wish)
 - We'll credit you in our security advisories (unless you prefer to remain anonymous)

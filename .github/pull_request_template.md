@@ -1,7 +1,7 @@
 ---
 name: Pull Request
 about: Create a pull request to contribute to Laune
-title: ""
+title: ''
 labels: []
 assignees: []
 ---
@@ -18,7 +18,8 @@ Fixes #(issue number)
 
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as
+      expected)
 - [ ] 📝 Documentation update
 - [ ] 🎨 Style changes (formatting, missing semi colons, etc; no code change)
 - [ ] ♻️ Refactoring (no functional changes, no api changes)

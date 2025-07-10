@@ -1,12 +1,12 @@
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchArticles, fetchFeeds } from "../api/client";
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { fetchArticles, fetchFeeds } from '../api/client';
 
 const FeedPage = () => {
   const { feedId } = useParams<{ feedId: string }>();
 
   const { data: feeds = [], isLoading: feedsLoading } = useQuery({
-    queryKey: ["feeds"],
+    queryKey: ['feeds'],
     queryFn: fetchFeeds,
   });
 
@@ -15,12 +15,12 @@ const FeedPage = () => {
     isLoading: articlesLoading,
     error,
   } = useQuery({
-    queryKey: ["articles", feedId],
+    queryKey: ['articles', feedId],
     queryFn: () => fetchArticles(feedId),
     enabled: !!feedId,
   });
 
-  const currentFeed = feeds.find((feed) => feed.id === feedId);
+  const currentFeed = feeds.find(feed => feed.id === feedId);
 
   if (feedsLoading || articlesLoading) {
     return (
@@ -63,7 +63,7 @@ const FeedPage = () => {
         </p>
         {currentFeed.lastFetched && (
           <p className="text-gray-500 dark:text-gray-400 text-sm">
-            Last updated:{" "}
+            Last updated:{' '}
             {new Date(currentFeed.lastFetched).toLocaleDateString()}
           </p>
         )}
@@ -78,7 +78,7 @@ const FeedPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
+          {articles.map(article => (
             <div
               key={article.id}
               className="bg-white dark:bg-gray-800 rounded-md shadow overflow-hidden flex flex-col"
@@ -90,14 +90,14 @@ const FeedPage = () => {
                 <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">
                   {article.publishedAt
                     ? new Date(article.publishedAt).toLocaleDateString()
-                    : "No date available"}
+                    : 'No date available'}
                 </p>
                 <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-3">
                   {article.content
                     ? article.content
-                        .replace(/<[^>]*>/g, "")
-                        .substring(0, 150) + "..."
-                    : "No preview available"}
+                        .replace(/<[^>]*>/g, '')
+                        .substring(0, 150) + '...'
+                    : 'No preview available'}
                 </p>
               </div>
               <div className="p-6 pt-0">

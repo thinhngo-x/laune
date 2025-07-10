@@ -1,6 +1,7 @@
 # Contributing to Laune
 
-Thank you for your interest in contributing to Laune! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to Laune! This document provides guidelines and
+information for contributors.
 
 ## 🚀 Getting Started
 
@@ -93,7 +94,6 @@ pnpm test
    ```
 
 2. **Test thoroughly**:
-
    - Run all tests
    - Test the UI manually
    - Verify database migrations work

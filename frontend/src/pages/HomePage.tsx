@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchArticles } from "../api/client";
+import { useQuery } from '@tanstack/react-query';
+import { fetchArticles } from '../api/client';
 
 const HomePage = () => {
   const {
@@ -7,7 +7,7 @@ const HomePage = () => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["articles"],
+    queryKey: ['articles'],
     queryFn: () => fetchArticles(),
   });
 
@@ -44,7 +44,7 @@ const HomePage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
+          {articles.map(article => (
             <div
               key={article.id}
               className="bg-white dark:bg-gray-800 rounded-md shadow overflow-hidden flex flex-col"
@@ -58,7 +58,7 @@ const HomePage = () => {
                 </p>
                 <div className="text-sm line-clamp-3 mb-4">
                   {/* Display a text-only preview of the content */}
-                  {article.content.replace(/<[^>]*>/g, "").substring(0, 120)}...
+                  {article.content.replace(/<[^>]*>/g, '').substring(0, 120)}...
                 </div>
                 <a
                   href={`/articles/${article.id}`}

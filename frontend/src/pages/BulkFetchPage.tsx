@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Feed, BulkFetchRequest, BulkFetchResponse, Article } from "../types";
-import { fetchFeeds, bulkFetchArticles } from "../api/client";
+import React, { useState, useEffect } from 'react';
+import { Feed, BulkFetchRequest, BulkFetchResponse, Article } from '../types';
+import { fetchFeeds, bulkFetchArticles } from '../api/client';
 
 interface DateRange {
   startDate: string;
@@ -11,8 +11,8 @@ const BulkFetchPage: React.FC = () => {
   const [feeds, setFeeds] = useState<Feed[]>([]);
   const [selectedFeedIds, setSelectedFeedIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange>({
-    startDate: "",
-    endDate: "",
+    startDate: '',
+    endDate: '',
   });
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<BulkFetchResponse | null>(null);
@@ -29,21 +29,21 @@ const BulkFetchPage: React.FC = () => {
       const feedData = await fetchFeeds();
       setFeeds(feedData);
     } catch (err) {
-      setError("Failed to load feeds");
-      console.error("Error loading feeds:", err);
+      setError('Failed to load feeds');
+      console.error('Error loading feeds:', err);
     }
   };
 
   const handleFeedToggle = (feedId: string) => {
-    setSelectedFeedIds((prev) =>
+    setSelectedFeedIds(prev =>
       prev.includes(feedId)
-        ? prev.filter((id) => id !== feedId)
+        ? prev.filter(id => id !== feedId)
         : [...prev, feedId]
     );
   };
 
   const handleSelectAll = () => {
-    setSelectedFeedIds(feeds.map((feed) => feed.id));
+    setSelectedFeedIds(feeds.map(feed => feed.id));
   };
 
   const handleSelectNone = () => {
@@ -51,7 +51,7 @@ const BulkFetchPage: React.FC = () => {
   };
 
   const handleDateChange = (field: keyof DateRange, value: string) => {
-    setDateRange((prev) => ({
+    setDateRange(prev => ({
       ...prev,
       [field]: value,
     }));
@@ -61,7 +61,7 @@ const BulkFetchPage: React.FC = () => {
     e.preventDefault();
 
     if (selectedFeedIds.length === 0) {
-      setError("Please select at least one feed");
+      setError('Please select at least one feed');
       return;
     }
 
@@ -80,8 +80,8 @@ const BulkFetchPage: React.FC = () => {
       const response = await bulkFetchArticles(request);
       setResults(response);
     } catch (err) {
-      setError("Failed to fetch articles");
-      console.error("Error fetching articles:", err);
+      setError('Failed to fetch articles');
+      console.error('Error fetching articles:', err);
     } finally {
       setLoading(false);
     }
@@ -101,7 +101,7 @@ const BulkFetchPage: React.FC = () => {
       };
 
       const response = await bulkFetchArticles(request);
-      setResults((prev) =>
+      setResults(prev =>
         prev
           ? {
               ...response,
@@ -109,22 +109,22 @@ const BulkFetchPage: React.FC = () => {
             }
           : response
       );
-      setOffset((prev) => prev + limit);
+      setOffset(prev => prev + limit);
     } catch (err) {
-      setError("Failed to load more articles");
-      console.error("Error loading more articles:", err);
+      setError('Failed to load more articles');
+      console.error('Error loading more articles:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
@@ -158,7 +158,7 @@ const BulkFetchPage: React.FC = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto border border-gray-200 rounded-md p-3">
-              {feeds.map((feed) => (
+              {feeds.map(feed => (
                 <label key={feed.id} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
@@ -186,7 +186,7 @@ const BulkFetchPage: React.FC = () => {
               <input
                 type="datetime-local"
                 value={dateRange.startDate}
-                onChange={(e) => handleDateChange("startDate", e.target.value)}
+                onChange={e => handleDateChange('startDate', e.target.value)}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
@@ -197,7 +197,7 @@ const BulkFetchPage: React.FC = () => {
               <input
                 type="datetime-local"
                 value={dateRange.endDate}
-                onChange={(e) => handleDateChange("endDate", e.target.value)}
+                onChange={e => handleDateChange('endDate', e.target.value)}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
@@ -210,7 +210,7 @@ const BulkFetchPage: React.FC = () => {
             </label>
             <select
               value={limit}
-              onChange={(e) => setLimit(Number(e.target.value))}
+              onChange={e => setLimit(Number(e.target.value))}
               className="block w-40 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
               <option value={25}>25</option>
@@ -227,7 +227,7 @@ const BulkFetchPage: React.FC = () => {
               disabled={loading || selectedFeedIds.length === 0}
               className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Fetching..." : "Fetch Articles"}
+              {loading ? 'Fetching...' : 'Fetch Articles'}
             </button>
           </div>
         </form>
@@ -249,7 +249,7 @@ const BulkFetchPage: React.FC = () => {
               Fetch Results
             </h2>
             <p className="text-blue-800">
-              Found {results.totalCount} total articles. Showing{" "}
+              Found {results.totalCount} total articles. Showing{' '}
               {results.articles.length} articles.
             </p>
 
@@ -259,7 +259,7 @@ const BulkFetchPage: React.FC = () => {
                   Articles per Feed:
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                  {results.feedSummaries.map((summary) => (
+                  {results.feedSummaries.map(summary => (
                     <div key={summary.feedId} className="text-sm text-blue-800">
                       {summary.feedTitle}: {summary.articleCount} articles
                     </div>
@@ -277,7 +277,7 @@ const BulkFetchPage: React.FC = () => {
               </h2>
             </div>
             <div className="divide-y divide-gray-200">
-              {results.articles.map((article) => (
+              {results.articles.map(article => (
                 <div key={article.id} className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -312,7 +312,7 @@ const BulkFetchPage: React.FC = () => {
                   className="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 disabled:opacity-50"
                 >
                   {loading
-                    ? "Loading..."
+                    ? 'Loading...'
                     : `Load More (${
                         results.totalCount - results.articles.length
                       } remaining)`}

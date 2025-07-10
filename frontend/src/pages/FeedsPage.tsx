@@ -1,32 +1,32 @@
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchFeeds, createFeed, deleteFeed } from "../api/client";
-import { Feed } from "../types";
+import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchFeeds, createFeed, deleteFeed } from '../api/client';
+import { Feed } from '../types';
 
 const FeedsPage = () => {
   const queryClient = useQueryClient();
-  const [newFeed, setNewFeed] = useState<Omit<Feed, "id">>({
-    title: "",
-    url: "",
+  const [newFeed, setNewFeed] = useState<Omit<Feed, 'id'>>({
+    title: '',
+    url: '',
   });
 
   const { data: feeds = [], isLoading } = useQuery({
-    queryKey: ["feeds"],
+    queryKey: ['feeds'],
     queryFn: fetchFeeds,
   });
 
   const createMutation = useMutation({
     mutationFn: createFeed,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feeds"] });
-      setNewFeed({ title: "", url: "" });
+      queryClient.invalidateQueries({ queryKey: ['feeds'] });
+      setNewFeed({ title: '', url: '' });
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteFeed,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feeds"] });
+      queryClient.invalidateQueries({ queryKey: ['feeds'] });
     },
   });
 
@@ -54,9 +54,7 @@ const FeedsPage = () => {
               id="title"
               className="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary-500 focus:ring-primary-500"
               value={newFeed.title}
-              onChange={(e) =>
-                setNewFeed({ ...newFeed, title: e.target.value })
-              }
+              onChange={e => setNewFeed({ ...newFeed, title: e.target.value })}
               required
             />
           </div>
@@ -73,7 +71,7 @@ const FeedsPage = () => {
               id="url"
               className="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary-500 focus:ring-primary-500"
               value={newFeed.url}
-              onChange={(e) => setNewFeed({ ...newFeed, url: e.target.value })}
+              onChange={e => setNewFeed({ ...newFeed, url: e.target.value })}
               placeholder="https://example.com/feed.xml"
               required
             />
@@ -85,7 +83,7 @@ const FeedsPage = () => {
               className="btn btn-primary"
               disabled={createMutation.isPending}
             >
-              {createMutation.isPending ? "Adding..." : "Add Feed"}
+              {createMutation.isPending ? 'Adding...' : 'Add Feed'}
             </button>
           </div>
         </form>
@@ -104,7 +102,7 @@ const FeedsPage = () => {
           </div>
         ) : (
           <ul>
-            {feeds.map((feed) => (
+            {feeds.map(feed => (
               <li
                 key={feed.id}
                 className="border-b border-gray-200 dark:border-gray-700 last:border-b-0"

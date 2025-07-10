@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchFeeds } from "../api/client";
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { fetchFeeds } from '../api/client';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
 
   const { data: feeds = [] } = useQuery({
-    queryKey: ["feeds"],
+    queryKey: ['feeds'],
     queryFn: fetchFeeds,
   });
 
   return (
     <div
       className={`border-r border-gray-200 dark:border-gray-700 ${
-        isOpen ? "w-64" : "w-16"
+        isOpen ? 'w-64' : 'w-16'
       } transition-width duration-300 ease-in-out`}
     >
       <div className="p-4">
@@ -23,7 +23,7 @@ const Sidebar = () => {
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
         >
-          {isOpen ? "◀" : "▶"}
+          {isOpen ? '◀' : '▶'}
         </button>
 
         {isOpen && (
@@ -36,9 +36,9 @@ const Sidebar = () => {
                 <Link
                   to="/"
                   className={`block px-3 py-2 rounded-md text-sm ${
-                    location.pathname === "/"
-                      ? "bg-primary-50 text-primary-600 dark:bg-primary-900 dark:text-primary-400"
-                      : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    location.pathname === '/'
+                      ? 'bg-primary-50 text-primary-600 dark:bg-primary-900 dark:text-primary-400'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                   }`}
                 >
                   Home
@@ -46,9 +46,9 @@ const Sidebar = () => {
                 <Link
                   to="/feeds"
                   className={`block px-3 py-2 rounded-md text-sm ${
-                    location.pathname === "/feeds"
-                      ? "bg-primary-50 text-primary-600 dark:bg-primary-900 dark:text-primary-400"
-                      : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    location.pathname === '/feeds'
+                      ? 'bg-primary-50 text-primary-600 dark:bg-primary-900 dark:text-primary-400'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                   }`}
                 >
                   Manage Feeds
@@ -56,9 +56,9 @@ const Sidebar = () => {
                 <Link
                   to="/bulk-fetch"
                   className={`block px-3 py-2 rounded-md text-sm ${
-                    location.pathname === "/bulk-fetch"
-                      ? "bg-primary-50 text-primary-600 dark:bg-primary-900 dark:text-primary-400"
-                      : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    location.pathname === '/bulk-fetch'
+                      ? 'bg-primary-50 text-primary-600 dark:bg-primary-900 dark:text-primary-400'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                   }`}
                 >
                   Bulk Fetch Articles
@@ -80,7 +80,7 @@ const Sidebar = () => {
               </div>
 
               <nav className="space-y-1">
-                {feeds.map((feed) => (
+                {feeds.map(feed => (
                   <Link
                     key={feed.id}
                     to={`/feeds/${feed.id}`}

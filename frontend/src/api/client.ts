@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   Feed,
   Article,
@@ -6,12 +6,12 @@ import {
   BulkFetchRequest,
   BulkFetchResponse,
   FeedSummary,
-} from "../types";
+} from '../types';
 
 const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: '/api',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -58,12 +58,12 @@ const transformBulkFetchResponse = (response: any): BulkFetchResponse => ({
 
 // Feeds API
 export const fetchFeeds = async (): Promise<Feed[]> => {
-  const { data } = await apiClient.get<any[]>("/feeds");
+  const { data } = await apiClient.get<any[]>('/feeds');
   return data.map(transformFeed);
 };
 
-export const createFeed = async (feedData: Omit<Feed, "id">): Promise<Feed> => {
-  const { data } = await apiClient.post<any>("/feeds", feedData);
+export const createFeed = async (feedData: Omit<Feed, 'id'>): Promise<Feed> => {
+  const { data } = await apiClient.post<any>('/feeds', feedData);
   return transformFeed(data);
 };
 
@@ -73,7 +73,7 @@ export const deleteFeed = async (feedId: string): Promise<void> => {
 
 // Articles API
 export const fetchArticles = async (feedId?: string): Promise<Article[]> => {
-  const url = feedId ? `/feeds/${feedId}/articles` : "/articles";
+  const url = feedId ? `/feeds/${feedId}/articles` : '/articles';
   const { data } = await apiClient.get<any[]>(url);
   return data.map(transformArticle);
 };
@@ -97,7 +97,7 @@ export const bulkFetchArticles = async (
   };
 
   const { data } = await apiClient.post<any>(
-    "/articles/bulk-fetch",
+    '/articles/bulk-fetch',
     apiRequest
   );
   return transformBulkFetchResponse(data);

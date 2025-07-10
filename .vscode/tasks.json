@@ -9,9 +9,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": [
-        "$rustc"
-      ],
+      "problemMatcher": ["$rustc"],
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
@@ -30,10 +28,7 @@
     },
     {
       "label": "Dev: Run All",
-      "dependsOn": [
-        "Backend: Run",
-        "Frontend: Dev Server"
-      ],
+      "dependsOn": ["Backend: Run", "Frontend: Dev Server"],
       "problemMatcher": []
     }
   ]

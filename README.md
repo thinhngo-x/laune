@@ -1,6 +1,7 @@
 # Laune 📰
 
-A modern RSS reader and article summarization platform built with Rust and TypeScript. Laune fetches articles from RSS feeds and provides AI-powered summaries for quick content consumption.
+A modern RSS reader and article summarization platform built with Rust and TypeScript. Laune fetches
+articles from RSS feeds and provides AI-powered summaries for quick content consumption.
 
 ## ✨ Features
 
@@ -51,8 +52,7 @@ laune/
    createdb laune_db
    ```
 
-2. **Environment Configuration**:
-   Create `backend/.env` (copy from `backend/.env.example`):
+2. **Environment Configuration**: Create `backend/.env` (copy from `backend/.env.example`):
 
    ```env
    DATABASE_URL=postgres://username:password@localhost:5432/laune_db

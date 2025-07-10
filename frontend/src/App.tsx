@@ -1,11 +1,11 @@
-import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
-import FeedsPage from "./pages/FeedsPage";
-import FeedPage from "./pages/FeedPage";
-import ArticlePage from "./pages/ArticlePage";
-import BulkFetchPage from "./pages/BulkFetchPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
+import FeedsPage from './pages/FeedsPage';
+import FeedPage from './pages/FeedPage';
+import ArticlePage from './pages/ArticlePage';
+import BulkFetchPage from './pages/BulkFetchPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (

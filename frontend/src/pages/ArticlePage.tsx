@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchArticle, fetchSummary, generateSummary } from "../api/client";
+import { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchArticle, fetchSummary, generateSummary } from '../api/client';
 
 const ArticlePage = () => {
   const queryClient = useQueryClient();
@@ -13,13 +13,13 @@ const ArticlePage = () => {
     isLoading: articleLoading,
     error: articleError,
   } = useQuery({
-    queryKey: ["article", articleId],
+    queryKey: ['article', articleId],
     queryFn: () => fetchArticle(articleId!),
     enabled: !!articleId,
   });
 
   const { data: summary, isLoading: summaryLoading } = useQuery({
-    queryKey: ["summary", articleId],
+    queryKey: ['summary', articleId],
     queryFn: () => fetchSummary(articleId!),
     enabled: !!articleId,
   });
@@ -28,7 +28,7 @@ const ArticlePage = () => {
     mutationFn: generateSummary,
     onSuccess: () => {
       // Refetch the summary after generating
-      queryClient.invalidateQueries({ queryKey: ["summary", articleId] });
+      queryClient.invalidateQueries({ queryKey: ['summary', articleId] });
     },
   });
 
@@ -89,7 +89,7 @@ const ArticlePage = () => {
               onClick={() => setShowFullArticle(!showFullArticle)}
               className="text-gray-700 dark:text-gray-300 hover:underline"
             >
-              {showFullArticle ? "Hide full content" : "Show full content"}
+              {showFullArticle ? 'Hide full content' : 'Show full content'}
             </button>
           </div>
 
@@ -117,8 +117,8 @@ const ArticlePage = () => {
                   disabled={generateMutation.isPending}
                 >
                   {generateMutation.isPending
-                    ? "Generating..."
-                    : "Generate Summary"}
+                    ? 'Generating...'
+                    : 'Generate Summary'}
                 </button>
               </div>
             )}
