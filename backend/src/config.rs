@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use config::{Config, ConfigError, Environment, File};
+use serde::{Deserialize, Serialize};
 use std::env;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -60,7 +60,11 @@ impl DatabaseSettings {
             self.host,
             self.port,
             self.database_name,
-            if self.require_ssl { "?sslmode=require" } else { "" }
+            if self.require_ssl {
+                "?sslmode=require"
+            } else {
+                ""
+            }
         )
     }
 }

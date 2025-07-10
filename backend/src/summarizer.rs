@@ -71,7 +71,7 @@ pub async fn generate_summary(title: &str, content: &str) -> Result<String, Stri
     // Extract the summary from the response
     let summary = response
         .choices
-        .get(0)
+        .first()
         .and_then(|choice| choice.message.content.clone())
         .ok_or_else(|| "No response content from OpenAI".to_string())?;
 

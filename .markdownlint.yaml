@@ -1,0 +1,49 @@
+# Markdownlint configuration
+# See https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Default state for all rules
+default: true
+
+# Rule overrides
+MD007:
+  # Unordered list indentation
+  indent: 2
+
+MD013:
+  # Line length
+  line_length: 120
+  # Allow long lines in tables
+  tables: false
+  # Allow long lines in code blocks
+  code_blocks: false
+
+MD024:
+  # Multiple headings with the same content
+  siblings_only: true
+
+MD026:
+  # Trailing punctuation in heading
+  punctuation: .,;:!
+
+MD029:
+  # Ordered list item prefix
+  style: ordered
+
+MD033:
+  # Allow inline HTML
+  allowed_elements:
+    - br
+    - sub
+    - sup
+    - details
+    - summary
+
+MD034: false # Bare URL used - disabled for README files
+
+MD036:
+  # Emphasis used instead of a heading
+  punctuation: .,;:!?
+
+# Disable specific rules for certain patterns
+MD041: false # First line in file should be a top level heading
+MD045: false # Images should have alternate text (alt text)

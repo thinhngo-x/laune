@@ -1,6 +1,6 @@
 use crate::config::Settings;
 use anyhow::Result;
-use sqlx::{postgres::PgPoolOptions, PgPool, Pool, Postgres};
+use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 use tracing::info;
 
 // Type alias for database connection pool

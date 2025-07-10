@@ -1,0 +1,17 @@
+# Prettier ignore file
+node_modules/
+dist/
+build/
+target/
+*.min.js
+*.min.css
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+Cargo.lock
+*.log
+.git/
+.vscode/settings.json
+.env*
+*.sqlite
+*.db

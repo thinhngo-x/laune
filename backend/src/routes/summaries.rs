@@ -1,8 +1,7 @@
 use crate::{config, db::DbPool, error::AppError, models::Summary, summarizer};
 use axum::{
     extract::{Path, State},
-    http::StatusCode,
-    routing::{get, post},
+    routing::get,
     Json, Router,
 };
 use sqlx::Row;

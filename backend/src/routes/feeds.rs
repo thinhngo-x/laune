@@ -1,41 +1,40 @@
-use axum::{
-    extract::{Path, State},
-    routing::{get, post, delete, put},
-    Json, Router,
-    http::StatusCode,
-    response::{Response, IntoResponse},
-};
-use uuid::Uuid;
-use sqlx::Row;
 use crate::{
-    models::{Feed, CreateFeedDto, UpdateFeedDto},
     db::DbPool,
     error::AppError,
     feeds::FeedFetcher,
+    models::{CreateFeedDto, Feed, UpdateFeedDto},
 };
+use axum::{
+    extract::{Path, State},
+    http::StatusCode,
+    response::IntoResponse,
+    routing::{get, post},
+    Json, Router,
+};
+use sqlx::Row;
 use tracing::{error, info};
+use uuid::Uuid;
 
 pub fn router() -> Router<DbPool> {
     Router::new()
         .route("/feeds", get(list_feeds).post(create_feed))
-        .route("/feeds/:id", get(get_feed).put(update_feed).delete(delete_feed))
+        .route(
+            "/feeds/:id",
+            get(get_feed).put(update_feed).delete(delete_feed),
+        )
         .route("/feeds/:id/refresh", post(refresh_feed))
 }
 
 // List all feeds
-async fn list_feeds(
-    State(pool): State<DbPool>
-) -> Result<Json<Vec<Feed>>, AppError> {
+async fn list_feeds(State(pool): State<DbPool>) -> Result<Json<Vec<Feed>>, AppError> {
     let feeds = sqlx::query("SELECT * FROM feeds ORDER BY title")
-        .map(|row: sqlx::postgres::PgRow| {
-            Feed {
-                id: row.get("id"),
-                title: row.get("title"),
-                url: row.get("url"),
-                last_fetched: row.get("last_fetched"),
-                created_at: row.get("created_at"),
-                updated_at: row.get("updated_at"),
-            }
+        .map(|row: sqlx::postgres::PgRow| Feed {
+            id: row.get("id"),
+            title: row.get("title"),
+            url: row.get("url"),
+            last_fetched: row.get("last_fetched"),
+            created_at: row.get("created_at"),
+            updated_at: row.get("updated_at"),
         })
         .fetch_all(&pool)
         .await
@@ -58,9 +57,11 @@ async fn create_feed(
         .fetch_optional(&pool)
         .await
         .map_err(|e| AppError::DatabaseError(e.to_string()))?;
-    
+
     if existing.is_some() {
-        return Err(AppError::BadRequest("Feed with this URL already exists".to_string()));
+        return Err(AppError::BadRequest(
+            "Feed with this URL already exists".to_string(),
+        ));
     }
 
     // Create the feed
@@ -69,19 +70,17 @@ async fn create_feed(
         INSERT INTO feeds (title, url)
         VALUES ($1, $2)
         RETURNING *
-        "#
+        "#,
     )
     .bind(&payload.title)
     .bind(&payload.url)
-    .map(|row: sqlx::postgres::PgRow| {
-        Feed {
-            id: row.get("id"),
-            title: row.get("title"),
-            url: row.get("url"),
-            last_fetched: row.get("last_fetched"),
-            created_at: row.get("created_at"),
-            updated_at: row.get("updated_at"),
-        }
+    .map(|row: sqlx::postgres::PgRow| Feed {
+        id: row.get("id"),
+        title: row.get("title"),
+        url: row.get("url"),
+        last_fetched: row.get("last_fetched"),
+        created_at: row.get("created_at"),
+        updated_at: row.get("updated_at"),
     })
     .fetch_one(&pool)
     .await
@@ -101,15 +100,13 @@ async fn get_feed(
 ) -> Result<Json<Feed>, AppError> {
     let feed = sqlx::query("SELECT * FROM feeds WHERE id = $1")
         .bind(id)
-        .map(|row: sqlx::postgres::PgRow| {
-            Feed {
-                id: row.get("id"),
-                title: row.get("title"),
-                url: row.get("url"),
-                last_fetched: row.get("last_fetched"),
-                created_at: row.get("created_at"),
-                updated_at: row.get("updated_at"),
-            }
+        .map(|row: sqlx::postgres::PgRow| Feed {
+            id: row.get("id"),
+            title: row.get("title"),
+            url: row.get("url"),
+            last_fetched: row.get("last_fetched"),
+            created_at: row.get("created_at"),
+            updated_at: row.get("updated_at"),
         })
         .fetch_optional(&pool)
         .await
@@ -135,7 +132,7 @@ async fn update_feed(
         .await
         .map_err(|e| AppError::DatabaseError(e.to_string()))?
         .is_some();
-        
+
     if !feed_exists {
         return Err(AppError::NotFound(format!("Feed with ID {} not found", id)));
     }
@@ -148,9 +145,11 @@ async fn update_feed(
             .fetch_optional(&pool)
             .await
             .map_err(|e| AppError::DatabaseError(e.to_string()))?;
-        
+
         if existing.is_some() {
-            return Err(AppError::BadRequest("Feed with this URL already exists".to_string()));
+            return Err(AppError::BadRequest(
+                "Feed with this URL already exists".to_string(),
+            ));
         }
     }
 
@@ -158,26 +157,24 @@ async fn update_feed(
     let feed = sqlx::query(
         r#"
         UPDATE feeds
-        SET 
+        SET
             title = COALESCE($1, title),
             url = COALESCE($2, url),
             updated_at = NOW()
         WHERE id = $3
         RETURNING *
-        "#
+        "#,
     )
     .bind(payload.title)
     .bind(payload.url)
     .bind(id)
-    .map(|row: sqlx::postgres::PgRow| {
-        Feed {
-            id: row.get("id"),
-            title: row.get("title"),
-            url: row.get("url"),
-            last_fetched: row.get("last_fetched"),
-            created_at: row.get("created_at"),
-            updated_at: row.get("updated_at"),
-        }
+    .map(|row: sqlx::postgres::PgRow| Feed {
+        id: row.get("id"),
+        title: row.get("title"),
+        url: row.get("url"),
+        last_fetched: row.get("last_fetched"),
+        created_at: row.get("created_at"),
+        updated_at: row.get("updated_at"),
     })
     .fetch_one(&pool)
     .await
@@ -202,7 +199,7 @@ async fn delete_feed(
         .await
         .map_err(|e| AppError::DatabaseError(e.to_string()))?
         .is_some();
-        
+
     if !feed_exists {
         return Err(AppError::NotFound(format!("Feed with ID {} not found", id)));
     }
@@ -233,17 +230,17 @@ async fn refresh_feed(
         .await
         .map_err(|e| AppError::DatabaseError(e.to_string()))?
         .is_some();
-        
+
     if !feed_exists {
         return Err(AppError::NotFound(format!("Feed with ID {} not found", id)));
     }
 
     // Create a feed fetcher
     let fetcher = FeedFetcher::new();
-    
+
     // Fetch and save articles
     let count = fetcher.refresh_feed(&pool, id).await?;
-    
+
     info!("Refreshed feed {} - {} new articles", id, count);
     Ok(Json(serde_json::json!({
         "success": true,

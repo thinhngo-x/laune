@@ -340,11 +340,11 @@ async fn bulk_fetch_articles(
         }
 
         let summary_query = format!(
-            "SELECT f.id as feed_id, f.title as feed_title, COUNT(a.id) as article_count 
-             FROM feeds f 
-             LEFT JOIN articles a ON f.id = a.feed_id 
-             WHERE {} 
-             GROUP BY f.id, f.title 
+            "SELECT f.id as feed_id, f.title as feed_title, COUNT(a.id) as article_count
+             FROM feeds f
+             LEFT JOIN articles a ON f.id = a.feed_id
+             WHERE {}
+             GROUP BY f.id, f.title
              ORDER BY f.title",
             summary_conditions.join(" AND ")
         );

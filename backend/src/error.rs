@@ -1,12 +1,13 @@
-use thiserror::Error;
 use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
     Json,
 };
 use serde_json::json;
+use thiserror::Error;
 
 #[derive(Error, Debug)]
+#[allow(dead_code)]
 pub enum AppError {
     #[error("Database error: {0}")]
     DatabaseError(String),
@@ -39,7 +40,9 @@ impl IntoResponse for AppError {
             AppError::SummarizationError(ref e) => (StatusCode::SERVICE_UNAVAILABLE, e.to_string()),
             AppError::NotFound(ref e) => (StatusCode::NOT_FOUND, e.to_string()),
             AppError::ValidationError(ref e) => (StatusCode::BAD_REQUEST, e.to_string()),
-            AppError::InternalServerError(ref e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()),
+            AppError::InternalServerError(ref e) => {
+                (StatusCode::INTERNAL_SERVER_ERROR, e.to_string())
+            }
         };
 
         let body = Json(json!({

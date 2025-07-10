@@ -1,0 +1,47 @@
+# Pre-commit configuration for Laune project
+#
+# Installation:
+#   uvx pre-commit install
+#
+# Usage:
+#   uvx pre-commit run --all-files
+#   uvx pre-commit autoupdate
+#
+repos:
+  # Essential file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: detect-private-key
+
+  # Rust formatting and linting
+  - repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+      - id: fmt
+        name: Rust format
+        args: [--manifest-path, backend/Cargo.toml, --]
+      - id: clippy
+        name: Rust clippy
+        args: [--manifest-path, backend/Cargo.toml, --, -D, warnings]
+
+  # Code formatting with Prettier
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        name: Prettier
+        files: \.(ts|tsx|js|jsx|json|css|md|yml|yaml)$
+        exclude: |
+          (?x)^(
+              .*\.lock$|
+              package-lock\.json$|
+              pnpm-lock\.yaml$
+          )$

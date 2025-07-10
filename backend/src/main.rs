@@ -1,11 +1,7 @@
-use axum::{
-    routing::get,
-    http::StatusCode,
-    Json, Router,
-};
+use axum::{http::StatusCode, routing::get, Json, Router};
+use std::net::SocketAddr;
 use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-use std::net::SocketAddr;
 
 mod config;
 mod db;
@@ -27,19 +23,19 @@ async fn main() -> anyhow::Result<()> {
         ))
         .with(tracing_subscriber::fmt::layer())
         .init();
-    
+
     // Load configuration
     let settings = config::Settings::new()?;
-    
+
     // Initialize database connection pool
     let db_pool = db::initialize_db(&settings).await?;
-    
+
     // Test the database connection
     if let Err(e) = db::check_connection(&db_pool).await {
         tracing::error!("Database connection check failed: {}", e);
         return Err(anyhow::anyhow!("Database connection failed"));
     }
-    
+
     // Build our application with routes
     let app = Router::new()
         .route("/health", get(health_check))
