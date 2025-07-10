@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: Run",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/backend && cargo run",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$rustc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Frontend: Dev Server",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/frontend && pnpm dev",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Dev: Run All",
+      "dependsOn": [
+        "Backend: Run",
+        "Frontend: Dev Server"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

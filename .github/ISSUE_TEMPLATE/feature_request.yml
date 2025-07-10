@@ -1,0 +1,120 @@
+name: Feature Request
+description: Suggest an idea or enhancement for Laune
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature! Please provide as much detail as possible.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your feature request
+      options:
+        - label: I have searched existing issues to make sure this feature hasn't been requested yet
+          required: true
+        - label: I have checked the roadmap to see if this feature is already planned
+          required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you requesting?
+      options:
+        - New functionality
+        - Enhancement to existing feature
+        - Performance improvement
+        - User interface improvement
+        - Developer experience improvement
+        - Documentation improvement
+        - Other (please specify in description)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe the problem or use case.
+      placeholder: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: A clear and concise description of what you want to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions or features you've considered
+      placeholder: A clear and concise description of any alternative solutions or features you've considered
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the application would this feature affect?
+      options:
+        - Backend (Rust API)
+        - Frontend (React UI)
+        - Database
+        - Feed Fetching
+        - Summarization
+        - Documentation
+        - DevOps/Infrastructure
+        - Multiple components
+        - Other (please specify in description)
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low (nice to have)
+        - Medium (would improve my workflow)
+        - High (would solve a significant problem)
+        - Critical (blocking my use of Laune)
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe how you would use this feature
+      placeholder: Provide specific examples of how this feature would be used
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups/Examples
+      description: If applicable, add mockups, screenshots, or examples from other applications
+      placeholder: Drag and drop images here or paste image URLs
+
+  - type: checkboxes
+    id: implementation
+    attributes:
+      label: Implementation
+      description: Are you willing to help implement this feature?
+      options:
+        - label: I would be willing to implement this feature myself
+        - label: I would be willing to help test this feature
+        - label: I would be willing to help with documentation
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, considerations, or examples about the feature request
+      placeholder: Any additional information that might be helpful

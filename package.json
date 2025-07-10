@@ -1,0 +1,33 @@
+{
+  "name": "laune",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Feed reader with AI summarization",
+  "scripts": {
+    "build": "pnpm run --filter=frontend build && cargo build --release --manifest-path=backend/Cargo.toml",
+    "dev": "concurrently \"pnpm run --filter=frontend dev\" \"cargo watch -C backend -x run\"",
+    "frontend": "pnpm run --filter=frontend",
+    "backend": "cargo run --manifest-path=backend/Cargo.toml",
+    "test": "pnpm run --filter=frontend test && cargo test --manifest-path=backend/Cargo.toml",
+    "clean": "rm -rf frontend/dist backend/target",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "rss",
+    "feed",
+    "ai",
+    "summarization",
+    "rust",
+    "react"
+  ],
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "packageManager": "pnpm@8.10.0",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  }
+}

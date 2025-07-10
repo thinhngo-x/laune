@@ -1,0 +1,61 @@
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# Node.js
+node_modules/
+.npm
+.pnp
+.pnp.js
+.eslintcache
+.yarn-integrity
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Build outputs
+/dist/
+/build/
+/out/
+backend/target/
+frontend/dist/
+frontend/build/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+.vercel
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+.postgres/
+
+# Logs
+*.log
+logs/
+
+# IDE & Editor folders
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+!.vscode/launch.json
+*.sublime-project
+*.sublime-workspace
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
