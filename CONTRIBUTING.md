@@ -18,12 +18,14 @@ Thank you for your interest in contributing to Laune! This document provides gui
 ## 🏗️ Development Setup
 
 ### Prerequisites
+
 - Rust 1.70+
 - Node.js 18+
 - pnpm
 - PostgreSQL 13+
 
 ### Environment Setup
+
 1. Create `backend/.env` from `backend/.env.example`
 2. Set up your PostgreSQL database
 3. Install dependencies:
@@ -33,6 +35,7 @@ Thank you for your interest in contributing to Laune! This document provides gui
    ```
 
 ### Running the Application
+
 ```bash
 # Quick start
 ./start.sh
@@ -45,18 +48,21 @@ cd frontend && pnpm dev
 ## 🧪 Testing
 
 ### Backend Tests
+
 ```bash
 cd backend
 cargo test
 ```
 
 ### Frontend Tests
+
 ```bash
 cd frontend
 pnpm test
 ```
 
 ### Integration Tests
+
 ```bash
 ./test_bulk_fetch.sh
 ```
@@ -64,12 +70,14 @@ pnpm test
 ## 📝 Code Style
 
 ### Rust (Backend)
+
 - Follow standard Rust conventions
 - Use `cargo fmt` for formatting
 - Run `cargo clippy` for linting
 - Add documentation for public APIs
 
 ### TypeScript (Frontend)
+
 - Use TypeScript strict mode
 - Follow React best practices
 - Use Tailwind CSS for styling
@@ -78,23 +86,27 @@ pnpm test
 ## 🔄 Pull Request Process
 
 1. **Update your branch** with the latest main:
+
    ```bash
    git fetch origin
    git rebase origin/main
    ```
 
 2. **Test thoroughly**:
+
    - Run all tests
    - Test the UI manually
    - Verify database migrations work
 
 3. **Create descriptive commits**:
+
    ```bash
    git commit -m "feat: add bulk article fetching feature"
    git commit -m "fix: resolve pagination issue in articles API"
    ```
 
 4. **Push and create PR**:
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -164,7 +176,7 @@ laune/
 We're particularly interested in contributions for:
 
 - **Performance improvements** (especially feed fetching)
-- **UI/UX enhancements** 
+- **UI/UX enhancements**
 - **Additional feed formats** (beyond RSS/Atom)
 - **Summarization improvements** (better AI prompts)
 - **Database optimizations**

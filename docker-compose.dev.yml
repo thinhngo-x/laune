@@ -1,5 +1,5 @@
 # Development compose with hot reload
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -21,7 +21,7 @@ services:
   # Backend runs on host for faster development
   # Use: cd backend && cargo run
 
-  # Frontend runs on host for faster development  
+  # Frontend runs on host for faster development
   # Use: cd frontend && pnpm dev
 
 volumes:

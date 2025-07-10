@@ -34,20 +34,23 @@ Fixes #(issue number)
 - [ ] Configuration changes
 
 ### Backend Changes
+
 <!-- Describe any backend/API changes -->
 
 ### Frontend Changes
+
 <!-- Describe any UI/UX changes -->
 
 ### Database Changes
+
 <!-- Describe any database schema changes -->
 
 ## 📸 Screenshots
 
 <!-- If your changes affect the UI, please include screenshots -->
 
-| Before | After |
-|--------|-------|
+| Before              | After               |
+| ------------------- | ------------------- |
 | <!-- screenshot --> | <!-- screenshot --> |
 
 ## ✅ Testing

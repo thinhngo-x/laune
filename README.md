@@ -46,12 +46,14 @@ laune/
 ### Database Setup
 
 1. **Create Database**:
+
    ```bash
    createdb laune_db
    ```
 
 2. **Environment Configuration**:
    Create `backend/.env` (copy from `backend/.env.example`):
+
    ```env
    DATABASE_URL=postgres://username:password@localhost:5432/laune_db
    OPENAI_API_KEY=your_openai_api_key_here
@@ -62,6 +64,7 @@ laune/
 ### 🛠️ Development
 
 #### Option 1: Quick Start Script
+
 ```bash
 chmod +x start.sh
 ./start.sh
@@ -70,6 +73,7 @@ chmod +x start.sh
 #### Option 2: Manual Setup
 
 **Backend**:
+
 ```bash
 cd backend
 cargo run
@@ -77,6 +81,7 @@ cargo run
 ```
 
 **Frontend**:
+
 ```bash
 cd frontend
 pnpm install
@@ -87,18 +92,21 @@ pnpm dev
 ### 🧪 Testing
 
 **Test Bulk Fetch Feature**:
+
 ```bash
 chmod +x test_bulk_fetch.sh
 ./test_bulk_fetch.sh
 ```
 
 **Run Backend Tests**:
+
 ```bash
 cd backend
 cargo test
 ```
 
 **Run Frontend Tests**:
+
 ```bash
 cd frontend
 pnpm test
@@ -130,6 +138,7 @@ POST /api/articles/bulk-fetch
 ```
 
 **Key Features**:
+
 - Always fetches latest articles online first
 - Supports date range filtering
 - Provides pagination
@@ -139,6 +148,7 @@ POST /api/articles/bulk-fetch
 ## 🏛️ Architecture
 
 ### Backend (Rust + Axum)
+
 - **Fast & Safe**: Built with Rust for memory safety and performance
 - **Async**: Tokio-based async runtime for high concurrency
 - **Database**: PostgreSQL with SQLx for type-safe queries
@@ -146,6 +156,7 @@ POST /api/articles/bulk-fetch
 - **HTTP Client**: `reqwest` for reliable feed fetching
 
 ### Frontend (React + TypeScript)
+
 - **Modern Stack**: React 18 with TypeScript
 - **Styling**: Tailwind CSS for responsive design
 - **State Management**: React hooks and context
