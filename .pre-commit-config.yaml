@@ -30,7 +30,16 @@ repos:
         args: [--manifest-path, backend/Cargo.toml, --]
       - id: clippy
         name: Rust clippy
-        args: [--manifest-path, backend/Cargo.toml, --, -D, warnings]
+        args:
+          [
+            --manifest-path,
+            backend/Cargo.toml,
+            --all-targets,
+            --all-features,
+            --,
+            -D,
+            warnings,
+          ]
 
   # Code formatting with Prettier
   - repo: https://github.com/pre-commit/mirrors-prettier

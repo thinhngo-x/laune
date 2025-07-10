@@ -51,7 +51,7 @@ jobs:
         run: cd backend && cargo fmt --all -- --check
 
       - name: Run Clippy
-        run: cd backend && cargo clippy -- -D warnings
+        run: cd backend && cargo clippy --all-targets --all-features -- -D warnings
 
       - name: Run tests
         run: cd backend && cargo test
@@ -69,8 +69,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install pnpm
         run: npm install -g pnpm

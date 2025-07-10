@@ -1,0 +1,30 @@
+# Clippy configuration for consistent linting
+# This ensures the same Clippy behavior in CI, pre-commit, and local development
+
+# Warn on commonly problematic patterns
+doc-valid-idents = [
+    "GitHub",
+    "GitLab",
+    "JavaScript",
+    "TypeScript",
+    "API",
+    "URL",
+    "HTTP",
+    "HTTPS",
+    "JSON",
+    "XML",
+    "RSS",
+    "Atom",
+]
+
+# Disable some overly pedantic lints that might differ between environments
+disallowed-names = []
+
+# Set cognitive complexity threshold
+cognitive-complexity-threshold = 30
+
+# Set type complexity threshold
+type-complexity-threshold = 250
+
+# Allow some common patterns
+too-many-arguments-threshold = 7
