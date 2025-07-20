@@ -106,6 +106,7 @@ impl FeedFetcher {
                 id: row.get("id"),
                 title: row.get("title"),
                 url: row.get("url"),
+                active: row.get("active"),
                 last_fetched: row.get("last_fetched"),
                 created_at: row.get("created_at"),
                 updated_at: row.get("updated_at"),
@@ -117,6 +118,15 @@ impl FeedFetcher {
                 AppError::DatabaseError(e.to_string())
             })?
             .ok_or_else(|| AppError::NotFound(format!("Feed with ID {} not found", feed_id)))?;
+
+        // Check if feed is active
+        if !feed.active {
+            info!("Skipping refresh for inactive feed: {}", feed.title);
+            return Err(AppError::BadRequest(format!(
+                "Feed '{}' is currently inactive",
+                feed.title
+            )));
+        }
 
         // Fetch articles from the feed
         let articles = self.fetch_feed(&feed).await?;
@@ -186,5 +196,80 @@ impl FeedFetcher {
             saved_count, feed.title
         );
         Ok(saved_count)
+    }
+
+    /// Refresh all active feeds
+    pub async fn refresh_all_active_feeds(
+        &self,
+        pool: &PgPool,
+    ) -> Result<serde_json::Value, AppError> {
+        // Get all active feeds
+        let active_feeds =
+            sqlx::query("SELECT id, title FROM feeds WHERE active = true ORDER BY title")
+                .fetch_all(pool)
+                .await
+                .map_err(|e| {
+                    error!("Failed to fetch active feeds: {:?}", e);
+                    AppError::DatabaseError(e.to_string())
+                })?;
+
+        if active_feeds.is_empty() {
+            info!("No active feeds found to refresh");
+            return Ok(serde_json::json!({
+                "success": true,
+                "message": "No active feeds found",
+                "feeds_processed": 0,
+                "total_articles_added": 0,
+                "results": []
+            }));
+        }
+
+        let mut total_articles = 0;
+        let mut results = Vec::new();
+
+        for row in active_feeds {
+            let feed_id: Uuid = row.get("id");
+            let feed_title: String = row.get("title");
+
+            match self.refresh_feed(pool, feed_id).await {
+                Ok(count) => {
+                    total_articles += count;
+                    results.push(serde_json::json!({
+                        "feed_id": feed_id.to_string(),
+                        "feed_title": feed_title,
+                        "articles_added": count,
+                        "success": true
+                    }));
+                    info!(
+                        "Successfully refreshed feed '{}': {} articles",
+                        feed_title, count
+                    );
+                }
+                Err(e) => {
+                    error!("Failed to refresh feed '{}': {:?}", feed_title, e);
+                    results.push(serde_json::json!({
+                        "feed_id": feed_id.to_string(),
+                        "feed_title": feed_title,
+                        "articles_added": 0,
+                        "success": false,
+                        "error": e.to_string()
+                    }));
+                }
+            }
+        }
+
+        let feeds_processed = results.len();
+        info!(
+            "Refreshed {} active feeds, total {} new articles",
+            feeds_processed, total_articles
+        );
+
+        Ok(serde_json::json!({
+            "success": true,
+            "message": format!("Processed {} active feeds", feeds_processed),
+            "feeds_processed": feeds_processed,
+            "total_articles_added": total_articles,
+            "results": results
+        }))
     }
 }

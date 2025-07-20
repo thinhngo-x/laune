@@ -2,13 +2,15 @@ use crate::{
     db::DbPool,
     error::AppError,
     feeds::FeedFetcher,
-    models::{CreateFeedDto, Feed, UpdateFeedDto},
+    models::{
+        CreateFeedDto, Feed, ToggleFeedStatusRequest, ToggleFeedStatusResponse, UpdateFeedDto,
+    },
 };
 use axum::{
     extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
-    routing::{get, post},
+    routing::{get, patch, post},
     Json, Router,
 };
 use sqlx::Row;
@@ -23,6 +25,8 @@ pub fn router() -> Router<DbPool> {
             get(get_feed).put(update_feed).delete(delete_feed),
         )
         .route("/feeds/:id/refresh", post(refresh_feed))
+        .route("/feeds/:id/toggle-status", patch(toggle_feed_status))
+        .route("/feeds/refresh-all-active", post(refresh_all_active_feeds))
 }
 
 // List all feeds
@@ -32,6 +36,7 @@ async fn list_feeds(State(pool): State<DbPool>) -> Result<Json<Vec<Feed>>, AppEr
             id: row.get("id"),
             title: row.get("title"),
             url: row.get("url"),
+            active: row.get("active"),
             last_fetched: row.get("last_fetched"),
             created_at: row.get("created_at"),
             updated_at: row.get("updated_at"),
@@ -78,6 +83,7 @@ async fn create_feed(
         id: row.get("id"),
         title: row.get("title"),
         url: row.get("url"),
+        active: row.get("active"),
         last_fetched: row.get("last_fetched"),
         created_at: row.get("created_at"),
         updated_at: row.get("updated_at"),
@@ -104,6 +110,7 @@ async fn get_feed(
             id: row.get("id"),
             title: row.get("title"),
             url: row.get("url"),
+            active: row.get("active"),
             last_fetched: row.get("last_fetched"),
             created_at: row.get("created_at"),
             updated_at: row.get("updated_at"),
@@ -172,6 +179,7 @@ async fn update_feed(
         id: row.get("id"),
         title: row.get("title"),
         url: row.get("url"),
+        active: row.get("active"),
         last_fetched: row.get("last_fetched"),
         created_at: row.get("created_at"),
         updated_at: row.get("updated_at"),
@@ -247,4 +255,68 @@ async fn refresh_feed(
         "feed_id": id.to_string(),
         "articles_added": count
     })))
+}
+
+// Toggle feed active/inactive status
+async fn toggle_feed_status(
+    State(pool): State<DbPool>,
+    Path(id): Path<Uuid>,
+    Json(payload): Json<ToggleFeedStatusRequest>,
+) -> Result<Json<ToggleFeedStatusResponse>, AppError> {
+    // Check if feed exists
+    let feed_exists = sqlx::query("SELECT id FROM feeds WHERE id = $1")
+        .bind(id)
+        .fetch_optional(&pool)
+        .await
+        .map_err(|e| AppError::DatabaseError(e.to_string()))?
+        .is_some();
+
+    if !feed_exists {
+        return Err(AppError::NotFound(format!("Feed with ID {} not found", id)));
+    }
+
+    // Update the feed's active status
+    sqlx::query(
+        r#"
+        UPDATE feeds
+        SET active = $1, updated_at = NOW()
+        WHERE id = $2
+        "#,
+    )
+    .bind(payload.active)
+    .bind(id)
+    .execute(&pool)
+    .await
+    .map_err(|e| {
+        error!("Failed to toggle feed status {}: {:?}", id, e);
+        AppError::DatabaseError(e.to_string())
+    })?;
+
+    let status_text = if payload.active {
+        "activated"
+    } else {
+        "deactivated"
+    };
+    let message = format!("Feed successfully {}", status_text);
+
+    info!("Feed {} {}", id, status_text);
+
+    Ok(Json(ToggleFeedStatusResponse {
+        feed_id: id,
+        active: payload.active,
+        message,
+    }))
+}
+
+// Refresh all active feeds
+async fn refresh_all_active_feeds(
+    State(pool): State<DbPool>,
+) -> Result<Json<serde_json::Value>, AppError> {
+    // Create a feed fetcher
+    let fetcher = FeedFetcher::new();
+
+    // Refresh all active feeds
+    let result = fetcher.refresh_all_active_feeds(&pool).await?;
+
+    Ok(Json(result))
 }

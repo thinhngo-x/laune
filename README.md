@@ -6,12 +6,14 @@ articles from RSS feeds and provides AI-powered summaries for quick content cons
 ## ✨ Features
 
 - 🌐 **RSS Feed Management**: Add, manage, and organize RSS/Atom feeds
-- 📄 **Bulk Article Fetching**: Retrieve articles from multiple feeds with date filtering
+- � **Feed Status Control**: Enable/disable feeds and refresh only active ones
+- �📄 **Bulk Article Fetching**: Retrieve articles from multiple feeds with date filtering
 - 🤖 **AI Summarization**: Generate intelligent summaries using OpenAI GPT models
+- 📊 **Aggregated Summaries**: Create comprehensive summaries from multiple feeds
 - 📱 **Responsive UI**: Modern React interface with Tailwind CSS
 - ⚡ **Real-time Updates**: Always fetch latest articles from online sources
 - 🔍 **Advanced Filtering**: Filter articles by feed, date range, and pagination
-- 📊 **Feed Analytics**: View article counts and feed statistics
+- � **Feed Analytics**: View article counts and feed statistics
 
 ## 🏗️ Project Structure
 
@@ -118,9 +120,109 @@ pnpm test
 
 - `GET /api/feeds` - List all feeds
 - `POST /api/feeds` - Create new feed
+- `GET /api/feeds/:id` - Get specific feed
+- `PUT /api/feeds/:id` - Update feed
+- `DELETE /api/feeds/:id` - Delete feed
+- `POST /api/feeds/:id/refresh` - Refresh specific feed
+- `PATCH /api/feeds/:id/toggle-status` - Toggle feed active/inactive status
+- `POST /api/feeds/refresh-all-active` - Refresh all active feeds
 - `GET /api/articles` - List articles with filtering
 - `POST /api/articles/bulk-fetch` - Bulk fetch articles from selected feeds
-- `POST /api/summaries` - Generate article summaries
+- `POST /api/articles/:id/summary` - Generate article summary
+- `POST /api/feeds/aggregate-summary` - Generate aggregated summary from multiple feeds
+
+### Feed Management API
+
+**Toggle Feed Status**:
+
+```json
+PATCH /api/feeds/:id/toggle-status
+{
+  "active": false
+}
+```
+
+**Response**:
+
+```json
+{
+  "feed_id": "uuid",
+  "active": false,
+  "message": "Feed successfully deactivated"
+}
+```
+
+**Refresh All Active Feeds**:
+
+```json
+POST /api/feeds/refresh-all-active
+```
+
+**Response**:
+
+```json
+{
+  "success": true,
+  "message": "Processed 5 active feeds",
+  "feeds_processed": 5,
+  "total_articles_added": 23,
+  "results": [
+    {
+      "feed_id": "uuid",
+      "feed_title": "Tech News",
+      "articles_added": 5,
+      "success": true
+    }
+  ]
+}
+```
+
+### Aggregated Summary API
+
+The aggregated summary feature creates comprehensive summaries from multiple feeds within a time
+constraint:
+
+```json
+POST /api/feeds/aggregate-summary
+{
+  "feed_ids": ["uuid1", "uuid2", "uuid3"],
+  "hours_back": 24
+}
+```
+
+**Response**:
+
+```json
+{
+  "summary": "Comprehensive aggregated summary of all articles...",
+  "feeds": [
+    {
+      "feed_id": "uuid1",
+      "feed_title": "Tech News",
+      "article_count": 5,
+      "articles": [
+        {
+          "id": "article-uuid",
+          "title": "Article Title",
+          "url": "https://example.com/article",
+          "published_at": "2025-01-15T10:30:00Z",
+          "summary": "Individual article summary..."
+        }
+      ]
+    }
+  ],
+  "total_articles": 15,
+  "time_range_hours": 24
+}
+```
+
+**Key Features**:
+
+- Leverages existing individual article summaries for efficiency
+- Default time constraint of 24 hours (configurable up to 1 week)
+- AI-powered aggregation that identifies themes and trends
+- Includes detailed breakdown by feed
+- Optimal for daily news digest or feed overviews
 
 ### Bulk Fetch API
 
