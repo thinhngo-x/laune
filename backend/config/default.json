@@ -6,7 +6,7 @@
   "database": {
     "username": "postgres",
     "password": "postgres",
-    "host": "localhost",
+    "host": "postgres",
     "port": 5432,
     "database_name": "laune_db",
     "require_ssl": false

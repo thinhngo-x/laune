@@ -2,7 +2,7 @@
 name = "laune-backend"
 version = "0.1.0"
 edition = "2021"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Duc-Thinh Ngo <duthngo@gmail.com>"]
 description = "Backend server for Laune feed reader"
 
 [dependencies]
@@ -13,7 +13,13 @@ tower-http = { version = "0.4.4", features = ["cors", "trace"] }
 tower = "0.4.13"
 
 # Database
-sqlx = { version = "0.7.2", features = ["runtime-tokio-native-tls", "postgres", "chrono", "json", "uuid"] }
+sqlx = { version = "0.7.2", features = [
+    "runtime-tokio-native-tls",
+    "postgres",
+    "chrono",
+    "json",
+    "uuid",
+] }
 
 # Feed parsing
 feed-rs = "1.3.0"

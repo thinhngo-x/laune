@@ -36,6 +36,95 @@ laune/
 └── docs/              # Documentation
 ```
 
+## 🐳 Docker Deployment
+
+Laune can be deployed using Docker with the provided `docker-compose.yml` file.
+
+### Prerequisites
+
+- **Docker** - [Install Docker](https://docs.docker.com/get-docker/)
+- **Docker Compose** - [Install Docker Compose](https://docs.docker.com/compose/install/)
+- **OpenAI API Key** - [Get API Key](https://openai.com/api/)
+
+### Quick Start with Docker
+
+1. **Create environment file**:
+
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your OpenAI API key
+   nano .env
+   ```
+
+2. **Start the services**:
+
+   ```bash
+   docker-compose up -d
+   # This will start PostgreSQL, Redis, backend, and frontend services
+   ```
+
+3. **Access the application**:
+   - Frontend: http://localhost
+   - Backend API: http://localhost:8080
+   - Health check: http://localhost:8080/health
+
+4. **View logs**:
+
+   ```bash
+   # View all logs
+   docker-compose logs
+
+   # View logs for a specific service
+   docker-compose logs backend
+   docker-compose logs frontend
+   ```
+
+5. **Stop the services**:
+
+   ```bash
+   docker-compose down
+   ```
+
+### Development with Docker
+
+For development with hot reload, use the `docker-compose.dev.yml` file:
+
+```bash
+cp .env.example .env
+docker-compose -f docker-compose.dev.yml up
+```
+
+This will start the services with hot reload enabled for both backend and frontend.
+
+### Customizing Docker Configuration
+
+You can override any of the default values by creating a `.env` file in the project root. The
+following variables can be customized:
+
+- `POSTGRES_DB`: PostgreSQL database name
+- `POSTGRES_USER`: PostgreSQL username
+- `POSTGRES_PASSWORD`: PostgreSQL password
+- `POSTGRES_PORT`: PostgreSQL port (default: 5432)
+- `REDIS_PORT`: Redis port (default: 6379)
+- `BACKEND_PORT`: Backend port (default: 8080)
+- `FRONTEND_PORT`: Frontend port (default: 80)
+- `RUST_LOG`: Rust logging level (default: info,laune_backend=debug)
+- `OPENAI_API_KEY`: OpenAI API key (required)
+
+Example `.env` file:
+
+```env
+POSTGRES_DB=laune_db
+POSTGRES_USER=laune_user
+POSTGRES_PASSWORD=secure_password
+POSTGRES_PORT=5432
+REDIS_PORT=6379
+BACKEND_PORT=8080
+FRONTEND_PORT=80
+RUST_LOG=debug
+OPENAI_API_KEY=your_actual_api_key_here
+```
+
 ## 🚀 Getting Started
 
 ### Prerequisites

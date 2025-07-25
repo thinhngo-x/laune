@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Feed, BulkFetchRequest, BulkFetchResponse, Article } from '../types';
+import { Feed, BulkFetchRequest, BulkFetchResponse } from '../types';
 import { fetchFeeds, bulkFetchArticles } from '../api/client';
 
 interface DateRange {
